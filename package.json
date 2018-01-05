@@ -5,21 +5,38 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "server": "nodemon --watch server --exec babel-node -- server/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "classnames": "^2.2.5",
+    "css-loader": "^0.28.7",
+    "express": "^4.16.2",
+    "lodash": "^4.17.4",
+    "nodemon": "^1.12.1",
     "react": "^16.0.0",
+    "react-bootstrap": "^0.31.5",
     "react-dom": "^16.0.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "sass-loader": "^6.0.6",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4",
+    "style-loader": "^0.19.1",
     "webpack": "^3.8.1",
+    "webpack-dev-middleware": "^1.12.0",
     "webpack-dev-server": "^2.9.4"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1"
   }
 }

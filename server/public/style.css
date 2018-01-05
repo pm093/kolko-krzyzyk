@@ -1,0 +1,463 @@
+body {
+  margin: 0;
+}
+
+.pbutton {
+  width: 15vw;
+  height: 5vw;
+  padding: 10px;
+  margin: 30px;
+  border: 2px solid #bb0bbb;
+  border-radius: 5px;
+  background: transparent;
+  font-size: 2vw;
+  color: white;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+
+.pbutton.active {
+  background: rgba(187, 11, 187, 0.2);
+}
+
+.pbutton.active:hover {
+  background: rgba(187, 11, 187, 0.2);
+}
+
+.pbutton:hover {
+  background: rgba(187, 11, 187, 0.1);
+}
+
+.pbutton:focus {
+  outline: 0;
+}
+
+.container {
+  display: flex;
+  background: black;
+  width: 100%;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.container .info {
+  width: 50vw;
+  display: flex;
+  flex-wrap: wrap;
+  color: white;
+}
+
+.container .info .names {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2vw;
+}
+
+.container .info .names h2 {
+  margin: 0 10%;
+}
+
+.container .info .names h2:nth-of-type(1)::first-letter {
+  color: #e91e63;
+}
+
+.container .info .names h2:nth-of-type(2)::first-letter {
+  color: #2196F3;
+}
+
+.container .info .score {
+  width: 100%;
+  display: flex;
+  font-size: 4vw;
+  justify-content: center;
+}
+
+.container .info .score > div {
+  margin: 0 10%;
+}
+
+.container .info .score > div:nth-of-type(1) {
+  color: #e91e63;
+}
+
+.container .info .score > div:nth-of-type(2) {
+  color: #2196F3;
+}
+
+.container .info .moves {
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+  margin: 0 auto;
+  align-self: flex-end;
+}
+
+.container .info .moves .number {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  font-size: 12px;
+  justify-content: center;
+  padding: 3px;
+  margin: 3px;
+  color: #9b9b9b;
+  background: #4c484d;
+  box-sizing: border-box;
+}
+
+.container .info .moves .number.done {
+  background: #3f3c40;
+  color: pink;
+  font-weight: bold;
+}
+
+.container .info .moves .number.circle {
+  border: 2px solid #2196F3;
+  font-weight: bold;
+  color: white;
+  padding: 2px;
+}
+
+.container .info .moves .number.cross {
+  border: 2px solid #e91e63;
+  font-weight: bold;
+  color: white;
+  padding: 2px;
+}
+
+.bigBoard {
+  width: 42vw;
+  height: 42vw;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  border-radius: 5px;
+  background: #0c0c0c;
+  position: relative;
+}
+
+.bigBoard .smBoard {
+  height: 30%;
+  width: 30%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: space-around;
+  padding: 5px;
+  position: relative;
+  cursor: not-allowed;
+}
+
+.bigBoard .smBoard.winningBoard {
+  box-shadow: 0 0 12px 0 #fff;
+  border-radius: 10px;
+}
+
+.bigBoard .smBoard.clickable {
+  box-shadow: 0 0 15px #c147dc inset;
+  border-radius: 10px;
+  cursor: default;
+}
+
+.bigBoard .smBoard.clickable .field {
+  cursor: pointer;
+}
+
+.bigBoard .smBoard .cover {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 10px;
+  display: none;
+}
+
+.bigBoard .smBoard .cover.cross {
+  display: block;
+  background: rgba(233, 30, 99, 0.25);
+}
+
+.bigBoard .smBoard .cover.circle {
+  display: block;
+  background: rgba(33, 150, 243, 0.25);
+}
+
+.bigBoard .smBoard .cover.unmatched {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  content: 'unmatched';
+}
+
+.bigBoard .smBoard .cover span {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  transform: rotate(45deg);
+}
+
+.bigBoard .smBoard .field {
+  height: 30%;
+  width: 30%;
+  background: black;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.bigBoard .smBoard .field.cross:hover {
+  border: 2px solid #e91e63;
+  opacity: .4;
+}
+
+.bigBoard .smBoard .field.circle:hover {
+  border: 2px solid #2196F3;
+  opacity: .4;
+}
+
+.bigBoard .smBoard .field.win {
+  border: dotted 3px white;
+}
+
+.bigBoard .smBoard .field i {
+  font-size: 2em;
+}
+
+.bigBoard .smBoard .field i.fa-circle-o {
+  color: #2196F3;
+}
+
+.bigBoard .smBoard .field i.fa-times {
+  color: #e91e63;
+}
+
+.bigBoard .cover {
+  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.bigBoard .cover.active {
+  display: flex;
+}
+
+.bigBoard .cover h2 {
+  text-align: center;
+  width: 100%;
+  color: white;
+  font-size: 3vw;
+}
+
+.bigBoard .cover.iCover {
+  display: none;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  width: 80%;
+  height: 90%;
+  align-self: center;
+  margin: 0 auto;
+}
+
+.bigBoard .cover.iCover.active {
+  display: flex;
+}
+
+.bigBoard .cover.iCover input {
+  padding-left: 3px;
+  margin-top: 20px;
+  width: 95%;
+  height: 36px;
+  background: #343434;
+  border: none;
+  font-size: 18px;
+  box-sizing: border-box;
+  color: white;
+}
+
+.bigBoard .cover.iCover .invitations {
+  width: 47%;
+  color: white;
+  margin-left: auto;
+  margin-top: 10px;
+}
+
+.bigBoard .cover.iCover .invitations ul {
+  margin: 0;
+  padding: 0;
+}
+
+.bigBoard .cover.iCover .invitations ul li {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  padding-left: 3px;
+  font-size: 20px;
+  margin-bottom: 6px;
+  color: white;
+  border: 1px solid #795548;
+}
+
+.bigBoard .cover.iCover .invitations ul li:hover {
+  cursor: pointer;
+  border: 1px solid #F44336;
+}
+
+.bigBoard .cover.iCover .results {
+  width: 47%;
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.bigBoard .cover.iCover .results ul {
+  margin: 0;
+  padding: 0;
+}
+
+.bigBoard .cover.iCover .results ul li {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  padding-left: 3px;
+  font-size: 20px;
+  margin-bottom: 6px;
+  color: white;
+  border: 1px solid #607D8B;
+}
+
+.bigBoard .cover.iCover .results ul li:hover {
+  cursor: pointer;
+  border: 1px solid #3599ca;
+}
+
+.bigBoard .cover.iCover .results ul li.invited {
+  border-color: tomato;
+}
+
+.bigBoard .cover.iCover .results ul li.invited:hover {
+  cursor: not-allowed;
+}
+
+.modeChoice {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.modeChoice > button {
+  width: 15vw;
+  height: 5vw;
+  padding: 10px;
+  margin: 30px;
+  border: 2px solid #bb0bbb;
+  border-radius: 5px;
+  background: transparent;
+  font-size: 2vw;
+  color: white;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+
+.modeChoice > button.active {
+  background: rgba(187, 11, 187, 0.2);
+}
+
+.modeChoice > button.active:hover {
+  background: rgba(187, 11, 187, 0.2);
+}
+
+.modeChoice > button:hover {
+  background: rgba(187, 11, 187, 0.1);
+}
+
+.modeChoice > button:focus {
+  outline: 0;
+}
+
+.modeChoice h2 {
+  color: #f5dafae0;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+}
+
+.usernamePick {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.usernamePick > div {
+  width: 25%;
+  margin: 10px;
+  padding: 15px;
+}
+
+.usernamePick > div input {
+  width: 100%;
+  height: 40px;
+  font-size: 20px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+.usernamePick .btn {
+  width: 100%;
+}
+
+.usernamePick .btn a {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+.usernamePick .btn button {
+  margin: 0 auto;
+  width: 250px;
+  height: 50px;
+  display: block;
+  outline: none;
+  border: 2px solid #0b75bb;
+  border-radius: 5px;
+  background: transparent;
+  color: white;
+  font-size: 20px;
+}
+
+.usernamePick .btn button:hover {
+  background: rgba(11, 117, 187, 0.1);
+  cursor: pointer;
+}
+
+.usernamePick .btn button:disabled {
+  border-color: #5c849e;
+}
+
+.usernamePick .btn button:disabled:hover {
+  cursor: not-allowed;
+  background: transparent;
+}
+
+.usernamePick .btn button:focus {
+  outline: 0;
+}
+/*# sourceMappingURL=style.css.map */

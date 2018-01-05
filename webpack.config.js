@@ -2,9 +2,9 @@ var webpack = require('webpack');
 var path = require('path');
 
 module.exports={
-  entry:path.join(__dirname,'/src/index.js'),
+  entry:path.join(__dirname,'/client/index.js'),
   output:{
-    path:__dirname,
+    path:path.join(__dirname,'server'),
     filename:'bundle.js',
     publicPath:'/'
   },
@@ -17,8 +17,8 @@ module.exports={
        exclude:path.join(__dirname,'node_modules')
      },
      {
-       test:/\.scss$/,
-       loader:['style-loader','css-loader','sass-loader']
+       test:/\.css$/,
+       loader:['style-loader','css-loader']
      },
    ]
  },
