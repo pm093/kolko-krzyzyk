@@ -4,4 +4,4 @@ Instalation
 ```npm install```
 
 Run
-```npm start```
+```npm run server```
