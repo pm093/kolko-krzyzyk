@@ -31,6 +31,8 @@ io.on('connection',(socket) => {
   socket.on('disconnect',() => {
     connections = _.omit(connections,socket.handshake.query.username);
     freePlayers = _.omit(freePlayers,socket.handshake.query.username);
+    pairs = _.omit(pairs,username)
+    pairs = _.omitBy(pairs,value => {if(value===username) return false; else{ return true}})
     console.log('polaczenia odjecie',connections);
   })
 
@@ -52,9 +54,14 @@ io.on('connection',(socket) => {
       return;
     }
     pairs[name] = username;
+    pairs[username] = name;
     socket.emit('paired',{name,ownSign:'o'});
     socket.broadcast.to(connections[name]).emit('paired',{name:username,ownSign:'x'})
     console.log(pairs)
+  })
+
+  socket.on('move',({smIndex,field}) => {
+    socket.broadcast.to(connections[pairs[username]]).emit('move',{smIndex,field})
   })
 })
 

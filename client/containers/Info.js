@@ -15,7 +15,7 @@ class Info extends React.Component{
                     <div>{this.props.scoreX}</div><div>{this.props.scoreY}</div>
                 </div>
 
-                <Moves currentNr={this.props.number} currentSign={this.props.currentSign}/>
+                <Moves currentNr={this.props.number} mode={this.props.mode} currentSign={this.props.currentSign}/>
             </div>
         )   
     }

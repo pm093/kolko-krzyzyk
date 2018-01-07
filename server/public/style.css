@@ -2,15 +2,19 @@ body {
   margin: 0;
 }
 
+#app {
+  min-width: 1050px;
+}
+
 .pbutton {
-  width: 15vw;
-  height: 5vw;
+  width: 150px;
+  height: 50px;
   padding: 10px;
   margin: 30px;
   border: 2px solid #bb0bbb;
   border-radius: 5px;
   background: transparent;
-  font-size: 2vw;
+  font-size: 22px;
   color: white;
   flex-wrap: wrap;
   cursor: pointer;
@@ -42,6 +46,8 @@ body {
 
 .container .info {
   width: 50vw;
+  min-width: 500px;
+  min-height: 500px;
   display: flex;
   flex-wrap: wrap;
   color: white;
@@ -131,6 +137,8 @@ body {
 .bigBoard {
   width: 42vw;
   height: 42vw;
+  min-width: 500px;
+  min-height: 500px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -176,6 +184,14 @@ body {
   left: 0;
   border-radius: 10px;
   display: none;
+}
+
+.bigBoard .smBoard .cover .pbutton {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.bigBoard .smBoard .cover .pbutton:hover {
+  background: rgba(0, 0, 0, 0.99);
 }
 
 .bigBoard .smBoard .cover.cross {
@@ -354,7 +370,8 @@ body {
 
 .modeChoice {
   width: 100vw;
-  height: 100vh;
+  min-width: 100px;
+  height: calc(100vh - 60px);
   display: flex;
   align-content: center;
   justify-content: center;
@@ -362,14 +379,14 @@ body {
 }
 
 .modeChoice > button {
-  width: 15vw;
-  height: 5vw;
+  width: 150px;
+  height: 50px;
   padding: 10px;
   margin: 30px;
   border: 2px solid #bb0bbb;
   border-radius: 5px;
   background: transparent;
-  font-size: 2vw;
+  font-size: 22px;
   color: white;
   flex-wrap: wrap;
   cursor: pointer;

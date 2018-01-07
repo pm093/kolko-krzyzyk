@@ -23,7 +23,6 @@ class App extends React.Component{
       mode:'',
       scoreX:0,
       scoreY:0,
-      
     }
   }
   setMode = (mode) => {
@@ -65,7 +64,7 @@ class App extends React.Component{
       <Router>
         <div className="container">
           <Route exact path='/game' render={()=><Info scoreX={this.state.scoreX} scoreY = {this.state.scoreY} mode={this.state.mode} username={this.state.username} compUsername={this.state.compUsername} number={this.state.number} currentSign={this.state.currentSign}/>}/>
-          <Route exact path='/game' render={()=><BigBoard setUsername={this.setUsername} setCompUsername={this.setCompUsername} username={this.state.username} compUsername = {this.state.compUsername} getScore={this.getScore} counterAdd={this.counterAdd} setCurrentSign={this.setCurrentSign} mode={this.state.mode}/>}/>
+          <Route exact path='/game' render={()=><BigBoard scoreX={this.state.scoreX} scoreY = {this.state.scoreY} counter={this.state.number} setUsername={this.setUsername} setCompUsername={this.setCompUsername} username={this.state.username} compUsername = {this.state.compUsername} getScore={this.getScore} counterAdd={this.counterAdd} setCurrentSign={this.setCurrentSign} mode={this.state.mode}/>}/>
           <Route exact path='/' render={()=><ModeChoice mode={this.state.mode}  setMode = {this.setMode} setUsername={this.setUsername}/>}/>
           
         </div> 

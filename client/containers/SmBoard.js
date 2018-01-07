@@ -13,7 +13,22 @@ class SmBoard extends React.Component{
     this.handleSquareClick = this.handleSquareClick.bind(this);
     this.counter = 0;
   }
-
+  componentDidMount(){
+    if(this.props.mode==='classic'){
+      this.props.socket.on('move',({field,smIndex}) => {
+        if(this.props.index!==smIndex) return;
+        this.counter++;
+        const board = this.state.board;
+        board[field]=this.props.onlineSign==='x' ? 'o' : 'x';
+        this.setState({
+          board,
+        })
+        this.checkOnlineGame(board)
+        this.props.setFieldIndex(field);
+        this.props.setTurn(true)
+      })
+    }
+  }
   checkCombination(winningCases,myBoard){
     for (var i = 0; i < winningCases.length; i++) {
       let testArray=[];
@@ -29,6 +44,38 @@ class SmBoard extends React.Component{
     }
     return false
   }
+  handleOnlineModeClick = (index,smIndex) => {
+    console.log('online mode click')
+    this.counter++;
+    if(!this.props.clickable) return false;
+    if (this.state.board[index]===''){
+      const board = this.state.board;
+      board[index] = this.props.onlineSign;
+      if(!this.checkOnlineGame(board)){
+        this.setState((prevState) => ({
+          board:board,
+        }))
+      }
+      this.props.socket.emit('move',{field:index,smIndex})
+    }
+  
+    this.props.setFieldIndex(index);
+    this.props.setTurn(false)
+  }
+  checkOnlineGame(board){
+    let checkCombination = this.checkCombination(this.winningCases,board);
+      if (checkCombination){
+        this.props.boardFinished(this.props.index,checkCombination)
+        return true;
+      }
+      else if(this.counter>8) {
+        this.props.boardFinished(this.props.index,0)
+        return true;
+      }
+      else{
+        return false;
+      }
+  }
   handleSquareClick(index) {
     if(!this.props.clickable) return false;
     if (this.state.board[index]==='') {
@@ -38,19 +85,17 @@ class SmBoard extends React.Component{
       board[index] = this.props.currentSign;
       let checkCombination = this.checkCombination(this.winningCases,board);
       if (checkCombination){
-        console.log('won', this.state.board,'sign: ', checkCombination)
         this.props.boardFinished(this.props.index,checkCombination)
       }
       else if(this.counter>8) {
-        console.log('unmatched')
         this.props.boardFinished(this.props.index,0)
       }
       else{
-      this.setState((prevState) => ({
-        board:board,
-      }))
+        this.setState((prevState) => ({
+          board:board,
+        }))
       }
-    this.props.counterAdd()
+   
     this.props.changeSign();
     this.props.setFieldIndex(index);
     }
@@ -71,7 +116,6 @@ class SmBoard extends React.Component{
     
     let info;
     info = this.props.finished === 0 ? 'unmatched' : ''; 
-    console.log(this.state.winFields)
     return(
           <div className={boardClasses}>
             {this.state.board.map((field,index) => {
@@ -81,11 +125,11 @@ class SmBoard extends React.Component{
               else if(field==='') toShow = field
               let fieldClasses = classNames({
                 field:true,
-                cross:this.props.clickable && this.props.currentSign === 'x' && this.state.board[index]==='',
-                circle:this.props.clickable && this.props.currentSign === 'o' && this.state.board[index]==='',
+                cross:this.props.clickable && ((this.props.mode==='multiplayer' && this.props.currentSign === 'x') || (this.props.onlineSign==='x' && this.props.mode==='classic')) && this.state.board[index]==='',
+                circle:this.props.clickable && ((this.props.mode==='multiplayer' && this.props.currentSign === 'o') || (this.props.onlineSign==='o' && this.props.mode==='classic')) && this.state.board[index]==='',
                 win:this.state.winFields.indexOf(index) !== -1,
               })
-              return <div key={index}  onClick={() => {this.handleSquareClick(index)}} className={fieldClasses}>{toShow}</div>
+              return <div key={index}  onClick={() => { this.props.mode==='classic' ? this.handleOnlineModeClick(index,this.props.index) : this.handleSquareClick(index)}} className={fieldClasses}>{toShow}</div>
             })}
             <div className={classes}><span>{info}</span></div>
           </div>

@@ -21,9 +21,11 @@ class BigBoard extends React.Component{
             invitations:[],
             invited:[],
             waitingForOponent:false,
+            onlineSign:'',
+            compSign:'',
+            turn:false,
         }
-        this.compSign='';
-        this.onlineSign='';
+        
         this.winningCases =  [[0,1,2],[3,4,5],[6,7,8],[3,4,5],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
         if(props.mode==='classic' && props.username!==''){
             socket = io.connect(HOST,{query:`username=${this.props.username}`});
@@ -44,8 +46,11 @@ class BigBoard extends React.Component{
             socket.on('paired',({name,ownSign}) => {
                 if(ownSign==='x') this.props.setCompUsername(name);
                 else this.props.setUsername(name,this.props.username);
-                this.onlineSign = ownSign;
-                this.compSign = ownSign==='x' ? 'o' : 'x'; 
+                this.setState({
+                    onlineSign:ownSign,
+                    compSign: ownSign==='x' ? 'o' : 'x',
+                    turn:ownSign==='x'
+                })
             })
         }
     }
@@ -68,6 +73,11 @@ class BigBoard extends React.Component{
         }
         return false
     }
+    setTurn = (turn) => {
+        this.setState({
+            turn,
+        })
+    }
     setFieldIndex  = (fieldIndex) => {
         if(this.state.board[fieldIndex]!==''){
             const availableBoards = [];
@@ -83,7 +93,6 @@ class BigBoard extends React.Component{
         })
     }
     changeSign = () => {
-        console.log('change sign in bigboard', this.state)
         this.setState((prevState) => {
            return {currentSign:prevState.currentSign === 'x' ? 'o' : 'x'}
         })
@@ -91,7 +100,6 @@ class BigBoard extends React.Component{
     }
     invite = (name) => {
         if(this.state.invited.indexOf(name)!==-1) return;
-        console.log('invite')
         socket.emit('invite',{name})
         this.setState({
             invited:[...this.state.invited,name],
@@ -107,19 +115,39 @@ class BigBoard extends React.Component{
             if(element==='o') scoreY++;
         })
         this.props.getScore(scoreX,scoreY);
-        console.log('state po skonczonej planszy ',board)
         this.setState({
             board,
         })
         if(this.checkCombination(this.winningCases,this.state.board)){
             console.log('somebody win the whole game')
         }
-        
+        else{
+            if(this.props.counter>7){
+                let winner;
+                if(this.props.scoreX>this.props.scoreY){
+                    winner='x';
+                }
+                else if(this.props.scoreX<this.props.scoreY){
+                    winner='o'
+                }
+                else{
+                    winner='nobody'
+                }
+                this.setState({
+                    winner
+                })
+            }
+        }
+        this.props.counterAdd();
     }
     acceptInvitation = (name) => {
         this.setState({waitingForOponent:true,})
         socket.emit('accept',{name})
     }
+    refreshPage = () => {
+        window.location.reload();
+    }
+    
     render(){
         // let clickable;
         // if(this.fieldIndex===-1) clickable  = true
@@ -161,9 +189,9 @@ class BigBoard extends React.Component{
                 </div>
             ) 
         }
+        if((this.props.mode!=='classic' && this.props.mode!=='multiplayer') || this.props.username==='') return  <Redirect to="/"/>;
         return(
             <div className="bigBoard">
-           { (this.props.mode!=='classic' && this.props.mode!=='multiplayer') || this.props.username==='' ?  <Redirect to="/"/> : ''}
                 {
                     this.state.board.map((smBoard,index) => {
                         let clickable;
@@ -175,26 +203,29 @@ class BigBoard extends React.Component{
                         else clickable = false;
                         if(this.props.compUsername==='') clickable=false;
                         if(this.state.winner) clickable = false;
+                        if(this.props.mode==='classic' && !this.state.turn) clickable = false;
                         return( 
                                 <SmBoard
                                 key={index} 
-                                counterAdd={this.props.counterAdd}
+                                setTurn={this.setTurn}
+                                onlineSign={this.state.onlineSign}
                                 clickable={clickable}
                                 changeSign={this.changeSign} 
                                 currentSign={this.state.currentSign} 
                                 boardFinished={this.boardFinished} 
                                 index={index}
                                 finished={smBoard}
+                                mode={this.props.mode}
                                 setFieldIndex = {this.setFieldIndex}
                                 winningSmBoard = {this.state.winFields.indexOf(index)!==-1}
+                                socket ={socket}
                                 />
                         )
                     })
                 }
                 <div className={coverClasses}>
                                 <h2>{this.state.winner} won!</h2>
-                                <button className='pbutton'>play again</button>
-                                <Link to='/'><button className='pbutton'>back</button></Link>
+                                <button onClick={this.refreshPage} className='pbutton'>back</button>
                 </div>
                 {iCover}
             </div>

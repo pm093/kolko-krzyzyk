@@ -5,15 +5,18 @@ $crossC:#e91e63;
 body{
     margin:0;
 }
+#app{
+    min-width: 1050px;
+}
 .pbutton{
-        width:15vw;
-        height:5vw;
+        width:150px;
+        height:50px;
         padding:10px;
         margin:30px;
         border:2px solid rgb(187, 11, 187);
         border-radius: 5px;
         background:rgba(0,0,0,0);
-        font-size:2vw;
+        font-size:22px;
         color:white;
         flex-wrap: wrap;
         cursor:pointer;
@@ -38,6 +41,8 @@ body{
     box-sizing: border-box;
     .info{
         width:50vw; 
+        min-width:500px;
+        min-height:500px;
         display: flex;
         flex-wrap:wrap;
         color:white;
@@ -115,6 +120,8 @@ body{
 .bigBoard{
     width:42vw;
     height:42vw;
+    min-width:500px;
+    min-height:500px;
     display:flex;
     flex-wrap:wrap;
     align-items: center;
@@ -153,6 +160,12 @@ body{
             left: 0;
             border-radius: 10px;
             display:none;
+            .pbutton{
+                background: rgba(0, 0, 0, 0.85);
+                &:hover{
+                    background: rgba(0, 0, 0, 0.99);
+                }
+            }
             &.cross{
                 display:block;
                 background: rgba(233, 30, 99, 0.25);
@@ -311,20 +324,21 @@ body{
 }
 .modeChoice{
     width:100vw;
-    height:100vh;
+    min-width:100px;
+    height:calc(100vh - 60px);
     display:flex;
     align-content: center;
     justify-content: center;
     flex-wrap:wrap;
     >button{
-        width:15vw;
-        height:5vw;
+        width:150px;
+        height:50px;
         padding:10px;
         margin:30px;
         border:2px solid rgb(187, 11, 187);;
         border-radius: 5px;
         background:rgba(0,0,0,0);
-        font-size:2vw;
+        font-size:22px;
         color:white;
         flex-wrap: wrap;
         cursor:pointer;
